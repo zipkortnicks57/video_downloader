@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "downloader"
+version = "0.1.0"
+description = "Модуль для скачивания видео из ВК и Ютуб"
+authors = ["zipkortnicks57 <nonofficial2015@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.2"
+click = "^8.1.7"
+yt-dlp = "^2024.3.10"
+types-requests = "^2.31.0.20240311"
+types-beautifulsoup4 = "^4.12.0.20240229"
+
+
+[tool.poetry.group.local.dependencies]
+isort = "^5.13.2"
+black = "^24.2.0"
+flake8 = "^7.0.0"
+mypy = "^1.9.0"
+pylint = "^3.1.0"
+pre-commit = "^3.6.2"
+
+[tool.pylint.'MESSAGES CONTROL']
+max-line-length = 120
+disable = ["W1203"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
