@@ -9,6 +9,6 @@ class VkDownloader(Downloader):
     def __init__(self):
         super().__init__(
             filename="source/vk.html",
-            html_class="^VideoCardThumb",
-            prefix="https://vk.com",
+            html_class="^vkitVideoCardThumb",
+            prefix="https://vkvideo.ru",
         )

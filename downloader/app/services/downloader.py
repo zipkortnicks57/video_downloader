@@ -49,7 +49,6 @@ class Downloader:
         """
 
         album_text = ""
-        index_series = 0
         if filename is not None:
             self.filename = filename
 
@@ -75,12 +74,14 @@ class Downloader:
                 album_text = text.read()
         soup = BeautifulSoup(album_text, "html.parser")
         links = soup.find_all("a", class_=re.compile(self.html_class))
-        for link in links:
+        for index_series, link in enumerate(links):
             # Если необходимо скачать не с первой серии
             if index_series < seria_start_number:
-                index_series += 1
                 continue
-            url = self.prefix + link.get("href")
+            if len(link.get("href").split('/')) < 4:
+                continue
+            url = self.prefix + "/" + link.get("href").split('/')[3]
+            print(f'url для скачивания {url}')
             self.download_file(url)
             time.sleep(DELAY_SECONDS)
         self.rename_mp4()
@@ -105,6 +106,7 @@ class Downloader:
         """
         ydl_opts = {
             "format": "url240",
+            "no-playlist": True,
             "postprocessors": [
                 {
                     "key": "FFmpegMetadata",
@@ -113,7 +115,7 @@ class Downloader:
         }
         with YoutubeDL(ydl_opts) as ydl:
             try:
-                ydl.download([url])
+                ydl.download(url)
                 logging.debug(f"Файл {url} успешно загружен")
                 return True
             except yt_dlp.utils.DownloadError as e:
